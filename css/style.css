@@ -1,3 +1,7 @@
 #clima {
 	text-align: center;
 }
+
+#map {
+	height: 100%; 
+}

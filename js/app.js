@@ -1,9 +1,11 @@
 $(function(){
 
 	// variables de los selectores 
-	 var map = $('#map');
+	 // var map = $('#map');
 	 var resumen = $('#resumen'); 
 	 var img = $('#img'); 
+
+	
 
 
 	 // variables de la api
@@ -30,23 +32,36 @@ $(function(){
 		'partly-cloudy-day': 'http://icon-park.com/imagefiles/simple_weather_icons_partly_cloudy.png'
 	}
 
-	// funcion de ajax
+
+	
 	$('#select').on('change', function(){
+
+	// funcion de ajax para darksky
 		$.ajax({
-			url: url1 + key_D +'/'+ coords[$(this).val()] + '?' + queryParams[0] + '&' + queryParams[1] + '&' + queryParams[2],
-			// url: url2 + key_G + '&callback=initMap',	
+			url: url1 + key_D +'/'+ coords[$(this).val()] + '?' + queryParams[0] + '&' + queryParams[1] + '&' + queryParams[2],	
 			type: 'GET'
 				}).then(function(data){
 					console.log(data);
 						resumen.text(parseInt(data.currently.temperature) + '°' + data.currently.summary);
-						img.attr('src', imagenes [data.currently.icon]);
-					})
+						img.attr('src', imagenes [data.currently.icon]); 
+					});
 
-				
+	// funcion de ajax para google maps
+		$.ajax({
+			url: url2 + key_G + '&callback=initMap',
+			type: 'GET',
+		}).then(function(data){
+			console.log(data);
+			var map;
+			function initMap() {
+				map = new google.maps.Map(document.getElementById('#map'), {
+					center: {lat: -34.397, lng: 150.644},
+					zoom: 8
+				});
+			}
+		})
+
 	})
 
-	// llamados de datos a los selectores 
 
-
-
-})
+});
