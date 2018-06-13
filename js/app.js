@@ -1,24 +1,22 @@
 $(function(){
 
 	// variables de los selectores 
-	 // var map = $('#map');
+	 var mapa = $('#map');
 	 var resumen = $('#resumen'); 
 	 var img = $('#img'); 
 
-	
-
 
 	 // variables de la api
-	var url1 = 'https://api.darksky.net/forecast/';
-	var url2 = 'https://maps.googleapis.com/maps/api/js?key=';
+	var url1 = 'https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/';
+	var url2 = 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/js?key=';
 	var key_D = '3e3b1362e590c96df786f9fd07ad3436';
-	var key_G = 'AIzaSyA-2p4CqmLAA8cTArCQfLlOh6WW-ILuK9w';
+	var key_G = 'AIzaSyCprm_doTsPZeWpS6HaRYmFUFJ49T6MbAI';
 	var coords = {
 		san: '-33.592281, -71.605512',
 		conce: '-36.8201352, -73.0443904',
 		stgo: '-33.4488897, -70.6692655',
-		none: 'none'
 		};
+
 
 	// variables queryparams
 	var queryParams = ['exclude=[minutely,hourly,daily,alerts,flags]','lang=es','units=auto'];
@@ -36,7 +34,7 @@ $(function(){
 	
 	$('#select').on('change', function(){
 
-	// funcion de ajax para darksky
+		// funcion de ajax para darksky
 		$.ajax({
 			url: url1 + key_D +'/'+ coords[$(this).val()] + '?' + queryParams[0] + '&' + queryParams[1] + '&' + queryParams[2],	
 			type: 'GET'
@@ -46,22 +44,21 @@ $(function(){
 						img.attr('src', imagenes [data.currently.icon]); 
 					});
 
-	// funcion de ajax para google maps
+		// funcion de ajax para google maps
 		$.ajax({
-			url: url2 + key_G + '&callback=initMap',
-			type: 'GET',
+			url: 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/js?key=AIzaSyCprm_doTsPZeWpS6HaRYmFUFJ49T6MbAI&callback=initMap',
+			// url: url2 + key_G + '&callback=initMap',
+			type: 'GET'
 		}).then(function(data){
 			console.log(data);
-			var map;
-			function initMap() {
-				map = new google.maps.Map(document.getElementById('#map'), {
-					center: {lat: -34.397, lng: 150.644},
-					zoom: 8
-				});
+			function initMap (){
+				new google.maps.Map(document.getElementById("map"),{
+				zoom:8,
+				center:{lat: -34.397, lng: 150.644}
+				})
 			}
+			
+
 		})
-
-	})
-
-
+	});
 });

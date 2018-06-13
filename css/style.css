@@ -1,7 +1,15 @@
 #clima {
 	text-align: center;
+	float: left;
+	width: 50%;
+	box-sizing: border-box;
+	height: auto;
+	padding: 40px;
 }
 
 #map {
-	height: 100%; 
+	float: left;
+	width: 50%;
+	height: 100px; 
+	box-sizing: border-box;
 }
