@@ -38,27 +38,33 @@ $(function(){
 		$.ajax({
 			url: url1 + key_D +'/'+ coords[$(this).val()] + '?' + queryParams[0] + '&' + queryParams[1] + '&' + queryParams[2],	
 			type: 'GET'
-				}).then(function(data){
+		})
+		.then(function(data){
 					console.log(data);
 						resumen.text(parseInt(data.currently.temperature) + '°' + data.currently.summary);
 						img.attr('src', imagenes [data.currently.icon]); 
-					});
+		});	
 
 		// funcion de ajax para google maps
-		$.ajax({
-			url: 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/js?key=AIzaSyCprm_doTsPZeWpS6HaRYmFUFJ49T6MbAI&callback=initMap',
-			// url: url2 + key_G + '&callback=initMap',
-			type: 'GET'
-		}).then(function(data){
-			console.log(data);
-			function initMap (){
-				new google.maps.Map(document.getElementById("map"),{
-				zoom:8,
-				center:{lat: -34.397, lng: 150.644}
-				})
-			}
-			
 
+		$.ajax({
+			// url: 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/js?key=AIzaSyCprm_doTsPZeWpS6HaRYmFUFJ49T6MbAI&callback=initMap',
+			url: url2 + key_G + '&callback=initMap',
+			type: 'GET'
 		})
+		.then(function initMap(data){
+			console.log(data);
+
+				// variable con las coordenadas de los mapas 
+				var coords_map = {
+					san:   {center: {lat: -33.592281, lng: -71.605512}, zoom:8},
+					conce: {center: {lat: -36.8201352, lng: -73.0443904}, zoom:8},
+					stgo:  {center: {lat: -33.4488897, lng: -70.6692655}, zoom:8}
+				};
+
+				// variable con la creación del nuevo mapa
+				var inicio_mapa = new google.maps.Map(document.getElementById('map'), coords_map[$(this).val()]);
+				console.log(inicio_mapa)
+			});	
 	});
 });
