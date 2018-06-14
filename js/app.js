@@ -1,3 +1,45 @@
+		// como google la carga en un script en el html primero, 
+		// se carga la funcion antes de que se carge la página completa para que el html, al llamarla, 
+		// la reconozca 
+
+		function initMap(){
+			// variable con las coordenadas de los mapas
+			var chile = {'lat': -33.4390438, 'lng': -70.6180208};	
+			var san = {'lat': -33.592281, 'lng': -71.605512};
+			var conce = {'lat': -36.8201352, 'lng': -73.0443904};
+			var stgo = {'lat': -33.4488897, 'lng': -70.6692655};
+
+			map = new google.maps.Map(document.getElementById('map'), {
+			center: chile, 
+			zoom: 13
+			});
+
+			// map.setCenter(chile);
+
+			$('#select').on('change', function(){
+
+				map = new google.maps.Map(document.getElementById('map'), {
+					center: chile, 
+					zoom: 13
+				});
+
+				if ($(this).val()=='san') {
+					map.setCenter(san);
+				}
+				if ($(this).val()=='conce') {
+					map.setCenter(conce);
+				}
+				if ($(this).val()=='stgo') {
+					map.setCenter(stgo);
+				}
+			});	
+		};
+		
+
+		
+
+
+
 $(function(){
 
 	// variables de los selectores 
@@ -43,28 +85,6 @@ $(function(){
 					console.log(data);
 						resumen.text(parseInt(data.currently.temperature) + '°' + data.currently.summary);
 						img.attr('src', imagenes [data.currently.icon]); 
-		});	
-
-		// funcion de ajax para google maps
-
-		$.ajax({
-			// url: 'https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/js?key=AIzaSyCprm_doTsPZeWpS6HaRYmFUFJ49T6MbAI&callback=initMap',
-			url: url2 + key_G + '&callback=initMap',
-			type: 'GET'
-		})
-		.then(function initMap(data){
-			console.log(data);
-
-				// variable con las coordenadas de los mapas 
-				var coords_map = {
-					san:   {center: {lat: -33.592281, lng: -71.605512}, zoom:8},
-					conce: {center: {lat: -36.8201352, lng: -73.0443904}, zoom:8},
-					stgo:  {center: {lat: -33.4488897, lng: -70.6692655}, zoom:8}
-				};
-
-				// variable con la creación del nuevo mapa
-				var inicio_mapa = new google.maps.Map(document.getElementById('map'), coords_map[$(this).val()]);
-				console.log(inicio_mapa)
-			});	
+		});		
 	});
 });
